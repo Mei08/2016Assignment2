@@ -8,10 +8,16 @@ var bodyParser = require('body-parser');
 //add mongoose for mongodb
 var mongoose = require('mongoose');
 
+//add auth packages
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
+var localStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var lists = require('./routes/lists');
+var auth = require('./routes/auth');
 var app = express();
 
 // view engine setup
@@ -30,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/lists', lists);
+app.use('/auth', auth);
 // db connection
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,  'DB Error: '));
