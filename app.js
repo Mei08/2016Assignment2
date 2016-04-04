@@ -8,26 +8,11 @@ var bodyParser = require('body-parser');
 //add mongoose for mongodb
 var mongoose = require('mongoose');
 
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
-//add the breakfast route
-var breakfastL = require('./routes/breakfastL');
-
+var lists = require('./routes/lists');
 var app = express();
-//db connection 
-var db = mongoose.connection;
-
-
-// show an error if connection fails
-db.on('error', console.error.bind(console,  'DB Error: '));
-
-db.once('open', function(callback) {
-  console.log('Connected to mongodb');
-});
-
-// connect
-mongoose.connect('mongodb://localhost/test');
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,10 +26,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', routes);
 app.use('/users', users);
-// map requests at /breakfast
-app.use('/breakfastist', breakfastL);
+app.use('/lists', lists);
+// db connection
+var db = mongoose.connection;
+db.on('error', console.error.bind(console,  'DB Error: '));
+
+db.once('open', function(callback) {
+  console.log('Connected to mongodb');
+});
+
+// connect
+//mongoose.connect('mongodb://localhost/test');
+
+//mongoose.connect(' mongodb://2106Assignment2:123456@ds064278.mlab.com:64278/assignment2');
+//get config file
+var configDb = require('./config/db.js');
+mongoose.connect(configDb.url);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

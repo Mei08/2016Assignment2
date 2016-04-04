@@ -1,11 +1,12 @@
 // link to mongoose
 var mongoose = require('mongoose');
-// create the breakfast SCHEMA
-var breakfastSchema = new mongoose.Schema( {
-    created: {
-        type: Date,
-        default: Date.now
-    },
+
+// define the article schema
+var listSchema = new mongoose.Schema({
+   created: {
+       type: Date,
+       default: Date.now
+   },
     title: {
         type: String,
         default: '',
@@ -14,10 +15,9 @@ var breakfastSchema = new mongoose.Schema( {
     },
     content: {
         type: String,
-        default: '',
-        trim: true
+        default: ''
     }
 });
 
 // make it public
-module.exports = mongoose.model('breakfast', breakfastSchema);
+module.exports = mongoose.model('List', listSchema);

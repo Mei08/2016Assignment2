@@ -3,7 +3,9 @@ $('body').scrollspy({
   target: '#navbar-collapsible',
   offset: 52
 });
-
+$('.confirmation').on('click', function() {
+    return confirm('Are you sure you want to delete this?');
+});
 
 /* smooth scrolling sections */
 $('a[href*=#]:not([href=#])').click(function() {
