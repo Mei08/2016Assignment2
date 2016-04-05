@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-// add auth package refs
+// add auth package
 var passport = require('passport');
 var mongoose = require('mongoose');
 var Account = require('../models/account');
@@ -15,9 +15,7 @@ passport.deserializeUser(function(id, done) {
         done(err, user);
     });
 });
-
-
-// github auth config
+//create github auth config
 passport.use(new gitHub({
     clientID: configDb.githubClientId,
     clientSecret: configDb.githubClientSecret,
@@ -43,7 +41,7 @@ passport.use(new gitHub({
     }
 ));
 
-// GET github login
+//add a github login
 router.get('/github', passport.authenticate('github', { scope: ['user.email'] }));
 router.get('/github/callback', passport.authenticate('github', {
     failureRedirect: '/auth/login'}),
@@ -51,21 +49,15 @@ router.get('/github/callback', passport.authenticate('github', {
         res.redirect('/lists');
     }
 );
-
-// GET login - show login form
+// GET login 
 router.get('/login', function(req, res, next) {
-    // store the session messages in a local variable
     var messages = req.session.messages || [];
-
-    // clear the session messages
     req.session.messages = [];
-
-    // check if user is already logged in
+    // check if user is logged in or not
     if (req.isAuthenticated()) {
         res.redirect('/auth/welcome');
     }
     else {
-        // show the login page and pass in any messages we may have
         res.render('auth/login', {
             title: 'Login',
             user: req.user,
@@ -75,23 +67,31 @@ router.get('/login', function(req, res, next) {
 
 });
 
-// POST login - validate user
-
- router.post('/login', passport.authenticate('local', {
+//validate user
+router.post('/login', passport.authenticate('local', {
     successRedirect: '/auth/welcome',
     failureRedirect: '/auth/login',
     failureMessage: 'Invalid Login'
-    //failureFlash: true
 }));
 
-// GET register - show registration form
+// GET register 
 router.get('/register', function(req, res, next) {
    res.render('auth/register', {
     title: 'Register'
    });
 });
-
-// GET welcome - show welome page for authenticated users
+// POST register 
+router.post('/register', function(req, res, next) {
+    Account.register(new Account({ username: req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+           return res.render('auth/register', { title: 'Register' });
+        }
+        else {
+            res.redirect('/auth/login');
+        }
+    });
+});
+// GET welcome page
 router.get('/welcome', isLoggedIn, function(req, res, next) {
    res.render('auth/welcome', {
        title: 'Welcome',
@@ -99,36 +99,13 @@ router.get('/welcome', isLoggedIn, function(req, res, next) {
    });
 });
 
-// POST register - save new user
-router.post('/register', function(req, res, next) {
-    /* Try to create a new account using our Account model & the form values
-    If we get an error display the register form again
-    If registration works, store the user and show the articles main page */
-    Account.register(new Account({ username: req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-           return res.render('auth/register', { title: 'Register' });
-        }
-        else {
-            /*req.login(account, function(err) {
-                res.redirect('/articles');
-            });*/
-            res.redirect('/auth/login');
-        }
-    });
-});
-
-// GET logout
+// create logout
 router.get('/logout', function(req, res, next) {
-    // we can use either of these
-    //req.session.destroy();
     req.logout();
     res.redirect('/');
 });
-
-// auth check
+//redirect login
 function isLoggedIn(req, res, next) {
-
-    // is the user authenticated?
     if (req.isAuthenticated()) {
         return next();
     }
@@ -136,34 +113,7 @@ function isLoggedIn(req, res, next) {
         res.redirect('/auth/login');
     }
 }
-// GET register
-router.get('/register', function(req, res, next) {
-   res.render('auth/register', {
-    title: 'Register'
-   });
-});
-// POST register - save new user
-router.post('/register', function(req, res, next) {
-    /* Try to create a new account using our Account model & the form values
-    If we get an error display the register form again
-    If registration works, store the user and show the articles main page */
-    Account.register(new Account({ username: req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-           return res.render('auth/register', { title: 'Register' });
-        }
-        else {
-            /*req.login(account, function(err) {
-                res.redirect('/articles');
-            });*/
-            res.redirect('/auth/login');
-        }
-    });
-});
-// GET login 
-router.get('/login', function(req, res, next) {
-    res.render('auth/login', {
-        title: 'Login'
-    });
-});
+
+
 
 module.exports = router;

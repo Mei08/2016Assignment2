@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+//mongoose
 var mongoose = require('mongoose');
 var List = require('../models/list');
 
@@ -19,62 +19,52 @@ router.get('/', function(req, res, next) {
   });
  
 });
-//Get
+//Get an add 
 router.get('/add', function(req, res, next) {
    if (req.isAuthenticated()) {
     res.render('lists/add', {
         title: 'Add a New One'
     });
-}
-else {
+    }
+    else {
     res.redirect('/auth/login');
-}
+    }
 });
-//post
-router.post('/add', function(req, res, next) {
 
- 
+router.post('/add', function(req, res, next) {
     List.create( {
             title: req.body.title,
-            content: req.body.content
+            content: req.body.content,
+            ingredient:req.body.ingredient,
+            time:req.body.time
         }
     );
-
-  
     res.redirect('/lists');
 });
+//create id for list
 router.get('/:id', function(req, res, next) {
-   // create an id variable to store the id from the url
     var id = req.params.id;
-
-    // look up the selected article
     List.findById(id,  function(err, list) {
        if (err) {
            console.log(err);
            res.end(err);
-       }
+                }
         else {
-           // show the edit view
            res.render('lists/edit', {
                title: 'Breakfast List',
                list: list
            });
-       }
+            }
     });
 });
 
 router.post('/:id', function(req, res, next) {
-    // create an id variable to store the id from the url
     var id = req.params.id;
-
-    // fill the article object
     var list = new List( {
         _id: id,
         title: req.body.title,
         content: req.body.content
     });
-
-    // use mongoose and our Article model to update
     List.update( { _id: id }, list,  function(err) {
         if (err) {
             console.log(err)
@@ -85,24 +75,19 @@ router.post('/:id', function(req, res, next) {
         }
     });
 });
-// GET handler for delete using the article id parameter
+//create a delete function by id
 router.get('/delete/:id', function(req, res, next) {
-   // grab the id parameter from the url
-    var id = req.params.id;
-
-    console.log('trying to delete');
-
+    var id = req.params.id
+    console.log('delete');
     List.remove({ _id: id }, function(err) {
         if (err) {
             console.log(err);
             res.end(err);
         }
         else {
-            // show updated articles list
             res.redirect('/lists');
         }
     });
 });
-
-// make public
+// make it public
 module.exports = router;

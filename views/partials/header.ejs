@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+   
       <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
    
@@ -16,12 +16,16 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
        <script src="/javascripts/scripts.js"></script>
        
+       <link rel="stylesheet" href="/stylesheets/styles.css" />
   </head>
   <body>  
-      <nav class="navbar navbar-default">
+      <nav id="nav" class="navbar navbar-default">
         <ul class="nav navbar-nav">
-            <li><a href="/">Index</a></li>
-            <li><a href="/lists">Lists</a></li>
+         <a class="navbar-brand" href="#">
+          <img id="logo" src="images/arlogo_rgb.png" class="img-responsive">
+                </a>
+            <li><a href="/">Home</a></li>
+            <li><a href="/lists">Breakfast Lists</a></li>
             <li><a href="/auth/logout">Logout</a></li>
           </ul>
       </nav>

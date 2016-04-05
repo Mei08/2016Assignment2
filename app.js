@@ -4,16 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 //add mongoose for mongodb
 var mongoose = require('mongoose');
-
 //add auth packages
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var lists = require('./routes/lists');
@@ -32,11 +29,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use(flash());
 
-// passport config section
+// add a passport config
 app.use(session({
   secret: 'assignment2 auth',
   resave: true,
@@ -45,8 +40,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// use the account model 
+// get account model 
 var Account = require('./models/account');
 passport.use(Account.createStrategy());
 passport.use(Account.createStrategy());
@@ -57,23 +51,18 @@ passport.deserializeUser(Account.deserializeUser);
 
 
 
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/lists', lists);
 app.use('/auth', auth);
-// db connection
+// connect to database
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,  'DB Error: '));
-
 db.once('open', function(callback) {
   console.log('Connected to mongodb');
 });
-
-// connect
-//mongoose.connect('mongodb://localhost/test');
-
-//mongoose.connect(' mongodb://2106Assignment2:123456@ds064278.mlab.com:64278/assignment2');
-//get config file
+//add a config
 var configDb = require('./config/db.js');
 mongoose.connect(configDb.url);
 // catch 404 and forward to error handler
@@ -83,8 +72,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
-
+// error handler
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {

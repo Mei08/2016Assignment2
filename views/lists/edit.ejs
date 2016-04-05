@@ -1,5 +1,5 @@
 <%- include ../partials/header.ejs %>
-
+<div id="editb">
 <main class="container">
     <h1>Breakfast</h1>
     <form method="post" action="<%= list._id %>">
@@ -12,6 +12,17 @@
             <textarea name="content" id="content" required><%= list.content %>
             </textarea>
         </fieldset>
+        <fieldset class="form-group">
+       <input type="file" name="images"class="col-sm-7"/>
+         </fieldset>
+         <fieldset class="form-group">
+          <label for="ingredient" class="col-sm-2">Ingredient: *</label>
+          <input name="ingredient" id="ingredient" required></input>
+         </fieldset>
+         <fieldset class="form-group">
+         <label for="time" class="col-sm-2">Time: *</label>
+          <textarea name="time" id="time" required></textarea>
+         </fieldset>
         <div>
             <%= list.created %>
         </div>
@@ -20,4 +31,5 @@
             <button class="btn btn-danger" type="button">Delete</button>
     </form>
 </main>
+</div>
 <%- include ../partials/footer.ejs %>

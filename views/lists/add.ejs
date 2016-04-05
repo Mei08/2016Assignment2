@@ -1,5 +1,5 @@
 <%- include ../partials/header.ejs %>
-
+<div id="addbr">
 <main class="container">
     <h1>Breakfast List</h1>
     <form method="post" action="add" >
@@ -11,12 +11,22 @@
             <label for="content" class="col-sm-2">Content: *</label>
             <textarea name="content" id="content" required></textarea>
         </fieldset>
-         <input type="file" name="images" />
-         <input type="submit" value="post"/>
+        <fieldset class="form-group">
+         <input type="file" name="images"class="col-sm-7"/>
+         </fieldset>
+         <fieldset class="form-group">
+          <label for="ingredient" class="col-sm-2">Ingredient: *</label>
+          <textarea name="ingredient" id="ingredient" required></textarea>
+         </fieldset>
+         <fieldset class="form-group">
+         <label for="time" class="col-sm-2">Time: *</label>
+          <input name="time" id="time" required></input>
+         </fieldset>
         <button class="btn btn-primary col-sm-offset-2">Save</button>
     </form>
 </form>
 </main>
+</div>
 
 </body>
 </html>
