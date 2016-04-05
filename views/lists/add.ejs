@@ -2,7 +2,7 @@
 
 <main class="container">
     <h1>Breakfast List</h1>
-    <form method="post" action="add">
+    <form method="post" action="add" >
         <fieldset class="form-group">
             <label for="title" class="col-sm-2">Title: *</label>
             <input name="title" id="title" required />
@@ -11,8 +11,11 @@
             <label for="content" class="col-sm-2">Content: *</label>
             <textarea name="content" id="content" required></textarea>
         </fieldset>
+         <input type="file" name="images" />
+         <input type="submit" value="post"/>
         <button class="btn btn-primary col-sm-offset-2">Save</button>
     </form>
+</form>
 </main>
 
 </body>

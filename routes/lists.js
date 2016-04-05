@@ -21,9 +21,14 @@ router.get('/', function(req, res, next) {
 });
 //Get
 router.get('/add', function(req, res, next) {
+   if (req.isAuthenticated()) {
     res.render('lists/add', {
-        title: 'Add'
+        title: 'Add a New One'
     });
+}
+else {
+    res.redirect('/auth/login');
+}
 });
 //post
 router.post('/add', function(req, res, next) {
@@ -98,5 +103,6 @@ router.get('/delete/:id', function(req, res, next) {
         }
     });
 });
+
 // make public
 module.exports = router;

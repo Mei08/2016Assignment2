@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
-var localStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -31,6 +31,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+app.use(flash());
+
+// passport config section
+app.use(session({
+  secret: 'assignment2 auth',
+  resave: true,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// use the account model 
+var Account = require('./models/account');
+passport.use(Account.createStrategy());
+passport.use(Account.createStrategy());
+passport.use(new LocalStrategy(Account.authenticate()));
+
+passport.serializeUser(Account.serializeUser);
+passport.deserializeUser(Account.deserializeUser);
+
 
 
 app.use('/', routes);
