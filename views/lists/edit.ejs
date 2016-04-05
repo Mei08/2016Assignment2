@@ -17,11 +17,11 @@
          </fieldset>
          <fieldset class="form-group">
           <label for="ingredient" class="col-sm-2">Ingredient: *</label>
-          <input name="ingredient" id="ingredient" required></input>
+          <input name="ingredient" id="ingredient"  value="<%= list.ingredient %>"/>
          </fieldset>
          <fieldset class="form-group">
          <label for="time" class="col-sm-2">Time: *</label>
-          <textarea name="time" id="time" required></textarea>
+          <textarea name="time" id="time" required><%= list.time %></textarea>
          </fieldset>
         <div>
             <%= list.created %>
