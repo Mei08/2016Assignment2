@@ -43,6 +43,7 @@ router.post('/add', function(req, res, next) {
 });
 //create id for list
 router.get('/:id', function(req, res, next) {
+    if (req.isAuthenticated()) {
     var id = req.params.id;
     List.findById(id,  function(err, list) {
        if (err) {
@@ -56,6 +57,10 @@ router.get('/:id', function(req, res, next) {
            });
             }
     });
+    }
+     else {
+    res.redirect('/auth/login');
+    }
 });
 
 router.post('/:id', function(req, res, next) {
@@ -77,6 +82,7 @@ router.post('/:id', function(req, res, next) {
 });
 //create a delete function by id
 router.get('/delete/:id', function(req, res, next) {
+    if (req.isAuthenticated()) {
     var id = req.params.id
     console.log('delete');
     List.remove({ _id: id }, function(err) {
@@ -88,6 +94,10 @@ router.get('/delete/:id', function(req, res, next) {
             res.redirect('/lists');
         }
     });
+    } 
+    else {
+    res.redirect('/auth/login');
+    }
 });
 // make it public
 module.exports = router;
