@@ -14,6 +14,17 @@ var listSchema = new mongoose.Schema({
     content: {
         type: String,
         default: ''
+    },
+    userPhoto:{ 
+        fieldname: 'String',
+    },
+    ingredient:{
+        type: String,
+        default: ''
+    },
+    time:{
+        type: String,
+        default: ''
     }
 });
 

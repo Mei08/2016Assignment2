@@ -68,7 +68,10 @@ router.post('/:id', function(req, res, next) {
     var list = new List( {
         _id: id,
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+         ingredient:req.body.ingredient,
+            time:req.body.time
+        
     });
     List.update( { _id: id }, list,  function(err) {
         if (err) {
